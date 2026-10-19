@@ -5,107 +5,202 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UPGRADE // Cyberpunk</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Orbitron:wght@500;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050508;--bg2:#0a0f1d;--cy:#00f3ff;--bl:#0066ff;--wh:#fff}
+/* ============ TOKENS ============ */
+:root{--bg:#050508;--bg2:#0a0f1d;--cy:#00f3ff;--bl:#0066ff;--wh:#fff;--txt:#dce9ff;--mut:#8fb4d9}
 html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{background:var(--bg);color:#cfe8ff;font-family:'Share Tech Mono',monospace;line-height:1.7;overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:1.05rem;line-height:1.8;overflow-x:hidden}
+.mono{font-family:'Share Tech Mono',monospace}
 .disp{font-family:'Orbitron',sans-serif;font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.04em}
-/* CRT overlay */
-body::before{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px)}
-body::after{content:"";position:fixed;inset:-50%;z-index:91;pointer-events:none;opacity:.07;animation:grain .8s steps(4) infinite;
+
+/* ============ LEGIBILIDAD ============ */
+p,li{max-width:68ch}
+p+p{margin-top:.9rem}
+.card p,.card li{color:var(--txt)}
+.card em{color:#fff;font-style:italic}
+b,strong{color:var(--wh);font-weight:600}
+code{font-family:'Share Tech Mono',monospace;color:var(--cy);background:rgba(0,243,255,.08);padding:.05rem .35rem}
+.tag{font-family:'Share Tech Mono',monospace;color:var(--cy);font-size:.82rem;letter-spacing:.04em}
+.lead{font-size:1.2rem;color:#fff}
+
+/* ============ EFECTOS DE PANTALLA (se apagan con el botón CRT) ============ */
+body::before{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px)}
+body::after{content:"";position:fixed;inset:-50%;z-index:91;pointer-events:none;opacity:.045;animation:grain .8s steps(4) infinite;
 background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>")}
+body.nofx::before,body.nofx::after{display:none}
 @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(0,0)}}
-/* cross grid */
+.crossgrid{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><path d='M24 20v8M20 24h8' stroke='%2300f3ff' stroke-opacity='.25'/></svg>")}
 .grid-bg{background-image:linear-gradient(rgba(0,243,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,243,255,.05) 1px,transparent 1px);background-size:48px 48px}
-.cross{position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:
-linear-gradient(var(--cy),var(--cy)),linear-gradient(var(--cy),var(--cy));background-size:9px 1px,1px 9px;background-repeat:repeat;
--webkit-mask:none}
-.crossgrid{background-image:radial-gradient(circle,transparent 0),
-url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><path d='M24 20v8M20 24h8' stroke='%2300f3ff' stroke-opacity='.35' stroke-width='1'/></svg>")}
 .neon{color:var(--wh);text-shadow:0 0 6px var(--cy),0 0 18px var(--cy),0 0 40px var(--bl)}
-.nav{background:rgba(5,5,8,.88);backdrop-filter:blur(6px);border-bottom:1px solid rgba(0,243,255,.4)}
-.nav a{padding:.4rem .7rem;font-size:.78rem;color:var(--cy);white-space:nowrap}
-.nav a:hover{background:var(--cy);color:#000}
+
+/* ============ NAV ============ */
+.nav{background:rgba(5,5,8,.92);backdrop-filter:blur(6px);border-bottom:1px solid rgba(0,243,255,.4)}
+.nav a{font-family:'Share Tech Mono',monospace;padding:.4rem .7rem;font-size:.85rem;color:var(--cy);white-space:nowrap;border-bottom:2px solid transparent}
+.nav a:hover,.nav a.active{background:rgba(0,243,255,.14);border-bottom-color:var(--cy);color:#fff}
+#bar{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--cy);box-shadow:0 0 8px var(--cy)}
+
+/* ============ LAYOUT ============ */
 .sec{position:relative;padding:5rem 1.25rem;max-width:1150px;margin:0 auto}
 .alt{background:var(--bg2)}
-.h2{font-size:clamp(1.5rem,4vw,2.5rem)}
-.tag{color:var(--cy);font-size:.75rem}
-/* card + brackets */
-.card{position:relative;background:linear-gradient(160deg,rgba(10,15,29,.95),rgba(5,5,8,.95));border:1px solid rgba(0,243,255,.25);padding:1.5rem;transition:.2s}
+.h2{font-size:clamp(1.5rem,4vw,2.5rem);line-height:1.2}
+
+/* ============ TARJETAS Y BOTONES ============ */
+.card{position:relative;background:linear-gradient(160deg,rgba(10,15,29,.96),rgba(5,5,8,.96));border:1px solid rgba(0,243,255,.25);padding:1.6rem;transition:border-color .2s,box-shadow .2s,transform .2s}
 .card::before,.card::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--cy)}
 .card::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
 .card::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
-.card:hover,.btn:hover{border-color:var(--cy);box-shadow:0 0 22px rgba(0,243,255,.25);text-shadow:-2px 0 #ff0044,2px 0 var(--cy)}
-.card h3{color:var(--wh);font-family:'Orbitron';font-weight:800;margin-bottom:.5rem}
-.btn{border:1px solid var(--cy);color:var(--cy);padding:.5rem 1rem;background:transparent;cursor:pointer;font-family:inherit;transition:.15s}
+.card:hover{border-color:var(--cy);box-shadow:0 0 22px rgba(0,243,255,.2)}
+.card h3{color:var(--wh);font-family:'Orbitron',sans-serif;font-weight:800;margin-bottom:.7rem;line-height:1.35;transition:text-shadow .15s}
+.card h3:hover,.rgb:hover{text-shadow:-2px 0 #ff0044,2px 0 var(--cy)}
+.btn{font-family:'Share Tech Mono',monospace;font-size:.9rem;border:1px solid var(--cy);color:var(--cy);padding:.5rem 1rem;background:transparent;cursor:pointer;transition:.15s}
+.btn:hover{background:rgba(0,243,255,.15);text-shadow:-2px 0 #ff0044,2px 0 var(--cy)}
 .btn.on{background:var(--cy);color:#000}
-/* glitch */
+.btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* ============ GLITCH ============ */
 .glitch{position:relative;display:inline-block}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;opacity:0}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;opacity:0;pointer-events:none}
 .glitch::before{color:#ff0044;transform:translate(-3px,0)}
 .glitch::after{color:var(--cy);transform:translate(3px,0)}
 .glitch:hover::before,.glitch:hover::after,.glitch.auto::before,.glitch.auto::after{opacity:.85;animation:gl .35s steps(2) infinite}
-.glitch:hover,.glitch.auto{clip-path:none}
 @keyframes gl{0%{clip-path:inset(10% 0 70% 0)}25%{clip-path:inset(60% 0 10% 0)}50%{clip-path:inset(30% 0 40% 0)}75%{clip-path:inset(80% 0 2% 0)}100%{clip-path:inset(0 0 90% 0)}}
-.rgb:hover{text-shadow:-3px 0 #ff0044,3px 0 var(--cy)}
-.rv{opacity:0;transform:translateY(24px);transition:.7s}
+
+/* ============ REVEAL ============ */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
 .rv.in{opacity:1;transform:none}
-.corner{position:absolute;font-size:.62rem;color:rgba(0,243,255,.6);letter-spacing:.05em}
-.vid{aspect-ratio:16/9;width:100%;border:1px solid var(--cy);background:#000 repeating-linear-gradient(45deg,#050508 0 12px,#0a0f1d 12px 24px)}
-.vid iframe{width:100%;height:100%;border:0}
-details{border:1px solid rgba(0,243,255,.3);margin-bottom:.7rem;background:rgba(10,15,29,.9)}
-summary{cursor:pointer;padding:.9rem 1.1rem;color:var(--wh);font-family:'Orbitron';font-weight:700;list-style:none}
-summary::before{content:"[+] ";color:var(--cy)}
+
+/* ============ HUD ============ */
+.corner{position:absolute;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(0,243,255,.75);letter-spacing:.05em}
+.caret::after{content:"▌";animation:blink 1s steps(2) infinite;color:var(--cy)}
+@keyframes blink{50%{opacity:0}}
+#reticle{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;z-index:95;pointer-events:none;border:1px solid var(--cy);opacity:0;transition:opacity .2s,width .15s,height .15s,margin .15s}
+#reticle.show{opacity:.8}
+#reticle.big{width:56px;height:56px;margin:-28px 0 0 -28px;border-color:#fff}
+#reticle::before,#reticle::after{content:"";position:absolute;background:var(--cy)}
+#reticle::before{left:50%;top:-6px;bottom:-6px;width:1px}
+#reticle::after{top:50%;left:-6px;right:-6px;height:1px}
+@media (hover:none){#reticle{display:none}}
+
+/* ============ POSTER + HOTSPOTS ============ */
+.hot{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border:2px solid var(--cy);border-radius:50%;background:rgba(0,243,255,.18);cursor:pointer;animation:pulse 2s infinite;z-index:5}
+.hot span{position:absolute;left:50%;bottom:130%;transform:translateX(-50%);white-space:nowrap;background:#000;border:1px solid var(--cy);color:#fff;padding:.1rem .5rem;font:.78rem 'Share Tech Mono',monospace;opacity:0;pointer-events:none;transition:.15s}
+.hot:hover span,.hot:focus-visible span{opacity:1}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,243,255,.6)}100%{box-shadow:0 0 0 16px rgba(0,243,255,0)}}
+.ph{display:flex;align-items:center;justify-content:center;text-align:center;background:repeating-linear-gradient(45deg,#050508 0 10px,#0a0f1d 10px 20px);border:1px dashed var(--cy);color:var(--cy);font:.85rem 'Share Tech Mono',monospace;min-height:120px;padding:.5rem}
+.zoom{cursor:zoom-in;transition:filter .15s,transform .15s}
+.zoom:hover{filter:drop-shadow(-3px 0 #ff0044) drop-shadow(3px 0 var(--cy))}
+#lb{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:1rem;cursor:zoom-out}
+#lb.open{display:flex}
+#lb img{max-width:100%;max-height:100%;border:1px solid var(--cy)}
+
+/* ============ TIMELINE ============ */
+.tl{display:flex;gap:.5rem;flex-wrap:wrap}
+
+/* ============ VIDEO ============ */
+.vid{aspect-ratio:16/9;width:100%;border:1px solid var(--cy);background:#000}
+.vid iframe{width:100%;height:100%;border:0;display:block}
+.nosig{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.4rem;padding:1rem;font-family:'Share Tech Mono',monospace;color:var(--cy);background:repeating-linear-gradient(0deg,#0a0f1d 0 3px,#050508 3px 6px)}
+
+/* ============ ACORDEÓN ============ */
+details{border:1px solid rgba(0,243,255,.3);margin-bottom:.7rem;background:rgba(10,15,29,.95)}
+details[open]{border-color:var(--cy)}
+summary{cursor:pointer;padding:.95rem 1.1rem;color:var(--wh);font-family:'Orbitron',sans-serif;font-weight:700;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"[+] ";color:var(--cy);font-family:'Share Tech Mono',monospace}
 details[open] summary::before{content:"[-] "}
-details>div{padding:0 1.1rem 1.1rem}
-.ph{display:flex;align-items:center;justify-content:center;text-align:center;background:repeating-linear-gradient(45deg,#050508 0 10px,#0a0f1d 10px 20px);border:1px dashed var(--cy);color:var(--cy);font-size:.8rem;min-height:150px}
-b,strong{color:var(--wh)}
-@media (prefers-reduced-motion:reduce){body::after,.glitch::before,.glitch::after{animation:none}.rv{opacity:1;transform:none}}
+details.seen summary::after{content:" ✔";color:var(--cy)}
+details>div{padding:0 1.1rem 1.2rem}
+
+/* ============ LAB ============ */
+.stage{position:relative;overflow:hidden;background:#000;border:1px solid var(--cy)}
+.stage>*{position:absolute;inset:0;width:100%;height:100%}
+input[type=range]{width:100%;accent-color:var(--cy)}
+
+@media (prefers-reduced-motion:reduce){body::after,.glitch::before,.glitch::after,.hot,.caret::after{animation:none}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body class="crossgrid">
 
+<!-- Filtro SVG usado por el laboratorio (RGB Split) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <filter id="rgbsplit" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+  <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+  <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+  <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b"/>
+  <feOffset in="r" dx="0" result="ro" id="fR"/>
+  <feOffset in="b" dx="0" result="bo" id="fB"/>
+  <feBlend in="ro" in2="g" mode="screen" result="rg"/>
+  <feBlend in="rg" in2="bo" mode="screen"/>
+ </filter>
+</svg>
+
+<div id="reticle"></div>
+<div id="lb" role="dialog" aria-label="Imagen ampliada"><img alt=""></div>
+
 <!-- NAV -->
 <header class="nav fixed top-0 inset-x-0 z-50">
- <nav class="flex items-center gap-1 overflow-x-auto px-3 py-2">
+ <nav class="flex items-center gap-1 overflow-x-auto px-3 py-2" id="nav">
   <span class="disp text-xs text-white mr-3">&gt;_UPGRADE</span>
   <a href="#hero">/inicio</a><a href="#contexto">/contexto</a><a href="#adn">/adn</a><a href="#emocion">/emoción</a><a href="#referentes">/referentes</a><a href="#tendencias">/tendencias</a><a href="#proceso">/proceso</a>
+  <button class="btn ml-auto !py-1 !px-2 text-xs" id="crt" aria-pressed="true" title="Activar/desactivar scanlines y grano">CRT: ON</button>
  </nav>
+ <div id="bar"></div>
 </header>
 
-<!-- 1. HERO -->
+<!-- ================= 1. HERO ================= -->
 <section id="hero" class="grid-bg relative min-h-screen flex items-center pt-20">
  <span class="corner top-20 left-4">35.6895° N, 139.6917° E | Sector: Neo-Tokyo</span>
- <span class="corner top-20 right-4 text-right">Signal strength: 98.7% | Network access: restricted</span>
+ <span class="corner top-20 right-4 text-right">Signal strength: <span id="sig">98.7</span>% | Network access: restricted</span>
  <span class="corner bottom-3 left-4">DATA LOG 011</span>
- <span class="corner bottom-3 right-4">[ ] REC ●</span>
+ <span class="corner bottom-3 right-4" id="xy">[ X:000 Y:000 ]</span>
  <div class="max-w-[1150px] mx-auto px-5 py-16 grid lg:grid-cols-2 gap-10 items-center">
   <div>
    <h1 class="disp neon text-4xl md:text-6xl leading-tight">
     <span class="glitch auto" data-text="UPGRADE">UPGRADE</span><br>
     <span class="glitch text-2xl md:text-4xl" data-text="// REDEFINE YOUR REALITY">// REDEFINE YOUR REALITY</span>
    </h1>
-   <p class="mt-6 text-lg text-white rgb">Análisis Visual, Histórico y Técnico del Movimiento Cyberpunk y sus Tendencias Contemporáneas</p>
-   <div class="card mt-8 text-sm">
+   <p class="lead mt-6 rgb" id="sub" data-type="Análisis Visual, Histórico y Técnico del Movimiento Cyberpunk y sus Tendencias Contemporáneas">Análisis Visual, Histórico y Técnico del Movimiento Cyberpunk y sus Tendencias Contemporáneas</p>
+   <div class="card mt-8 mono text-base" id="hud">
     <p class="tag mb-2">// SYSTEM STATUS</p>
-    <p>Artificial intelligence: <span class="text-[#00f3ff]">ONLINE</span></p>
-    <p>Cybernetic implants: <span class="text-[#00f3ff]">DETECTED</span></p>
-    <p>Memory archive: <span class="text-[#00f3ff]">ENCRYPTED</span></p>
-    <p>Security protocol: <span class="text-[#00f3ff]">ENABLED</span></p>
+    <p>Artificial intelligence: <b class="st" data-v="ONLINE">ONLINE</b></p>
+    <p>Cybernetic implants: <b class="st" data-v="DETECTED">DETECTED</b></p>
+    <p>Memory archive: <b class="st" data-v="ENCRYPTED">ENCRYPTED</b></p>
+    <p>Security protocol: <b class="st" data-v="ENABLED">ENABLED</b></p>
+    <button class="btn mt-4" id="rescan">Reiniciar escaneo</button>
    </div>
   </div>
-  <!-- CAMBIAR AQUÍ LA RUTA DE LA IMAGEN (poster-upgrade.jpg) -->
-  <div class="card p-3 mx-auto w-full max-w-sm">
-   <img src="media/Poster.jpeg" alt="Póster UPGRADE" class="w-full block" onerror="this.outerHTML='<div class=&quot;ph aspect-[7/10]&quot;>[ PÓSTER ]<br>poster-upgrade.jpg</div>'">
+
+  <div>
+   <!-- CAMBIAR AQUÍ LA RUTA DE LA IMAGEN DEL PÓSTER (data-img). Acepta .jpg/.jpeg/.png/.webp y mayúsculas/minúsculas -->
+   <div class="card p-3 mx-auto w-full max-w-sm relative" id="posterBox">
+    <img data-img="media/Poster.jpeg" data-ph="[ PÓSTER ] media/Poster.jpeg" data-phclass="aspect-[7/10]" id="poster" alt="Póster UPGRADE" class="zoom w-full block">
+    <!-- Puntos interactivos: llevan a cada pilar del ADN -->
+    <button class="hot" style="left:76%;top:11%" data-pillar="1" aria-label="Formas"><span>Formas</span></button>
+    <button class="hot" style="left:50%;top:36%" data-pillar="0" aria-label="Color"><span>Color</span></button>
+    <button class="hot" style="left:25%;top:48%" data-pillar="3" aria-label="Texturas"><span>Texturas</span></button>
+    <button class="hot" style="left:22%;top:76%" data-pillar="4" aria-label="Composición"><span>Composición</span></button>
+    <button class="hot" style="left:52%;top:90%" data-pillar="2" aria-label="Tipografía"><span>Tipografía</span></button>
+   </div>
+   <p class="tag text-center mt-3 mx-auto">Toca los puntos para analizar cada pilar. Clic en el póster para ampliarlo.</p>
   </div>
  </div>
 </section>
 
-<!-- 2. CONTEXTO -->
+<!-- ================= 2. CONTEXTO ================= -->
 <div class="alt"><section id="contexto" class="sec">
  <p class="tag">DATA LOG 002 // ARCHIVOS DESCLASIFICADOS</p>
  <h2 class="disp neon h2 mb-8 rv"><span class="glitch" data-text="Contexto cultural e histórico">Contexto cultural e histórico</span></h2>
+
+ <!-- Línea de tiempo interactiva -->
+ <div class="card mb-6 rv">
+  <p class="tag mb-3">// LÍNEA DE TIEMPO (clic en un año)</p>
+  <div class="tl" id="tl">
+   <button class="btn on" data-i="0">1982</button><button class="btn" data-i="1">1984</button><button class="btn" data-i="2">1988</button><button class="btn" data-i="3">1995</button><button class="btn" data-i="4">2020</button>
+  </div>
+  <p class="mt-4" id="tlText"><b>1982 — </b><em>Blade Runner</em> y <em>Tron</em> definen el aspecto visual del cine sci-fi moderno con el diseño de Syd Mead.</p>
+ </div>
+
  <div class="grid md:grid-cols-2 gap-5">
   <article class="card rv"><p class="tag">FILE_01</p><h3>¿En qué época y lugar surgió? ¿Qué estaba sucediendo?</h3>
    <p>Surgió a finales de los años 70 y principios de los 80 en Estados Unidos, Reino Unido y Japón (con Tokio como epicentro visual). El mundo atravesaba la recta final de la Guerra Fría, crisis económicas post-industriales, el ascenso de megacorporaciones multinacionales y la llegada masiva de las computadoras personales. Existía una fuerte paranoia social ante la deshumanización y el control corporativo.</p></article>
@@ -118,23 +213,36 @@ b,strong{color:var(--wh)}
  </div>
 </section></div>
 
-<!-- 3. ADN -->
+<!-- ================= 3. ADN ================= -->
 <section id="adn" class="sec">
  <p class="tag">DATA LOG 003 // ANÁLISIS DEL PÓSTER "UPGRADE"</p>
  <h2 class="disp neon h2 mb-6 rv"><span class="glitch" data-text="ADN Cyberpunk: 5 pilares visuales">ADN Cyberpunk: 5 pilares visuales</span></h2>
- <div class="flex flex-wrap gap-2 mb-5" id="tabs">
+ <div class="flex flex-wrap gap-2 mb-5" id="tabs" role="tablist">
   <button class="btn on" data-t="0">Color</button><button class="btn" data-t="1">Formas y elementos gráficos</button><button class="btn" data-t="2">Tipografía</button><button class="btn" data-t="3">Texturas y materialidad</button><button class="btn" data-t="4">Composición</button>
  </div>
- <div class="card">
-  <div class="panel"><h3>1. Color</h3><p>Predominio de sombras profundas (negros y azules abisales) en alto contraste con colores luz neón (cian eléctrico, magenta, violeta). Simboliza la frialdad cibernética, la bioluminiscencia artificial y la noche perpetua de las metrópolis futuristas.</p><p class="tag mt-3">&gt; En "UPGRADE": el cian brillante baña piel y título sobre el fondo oscuro.</p></div>
-  <div class="panel hidden"><h3>2. Formas y elementos gráficos</h3><p>Uso de geometría técnica (hexágonos, vectores angulares, retículas de coordenadas, miras de escaneo facial) combinada con la figura humana intervenida o fragmentada por ondas digitales y códigos binarios.</p><p class="tag mt-3">&gt; En "UPGRADE": hexágonos superiores, miras de enfoque y el código "011".</p></div>
-  <div class="panel hidden"><h3>3. Tipografía</h3><p>Combinación de dos mundos: fuentes <em>Display</em> geométricas, pesadas, expandidas y en cursiva (que transmiten velocidad, impacto e industrialización, como en el título <em>"UPGRADE"</em>) junto con fuentes <em>Monospace</em> (monoespaciadas de terminal de código) para metadatos técnicos y lecturas de sistema.</p><p class="tag mt-3">&gt; En "UPGRADE": título display cursivo + textos de sistema monoespaciados.</p></div>
-  <div class="panel hidden"><h3>4. Texturas y materialidad</h3><p>Acabados de pantalla digital deteriorada: líneas de escaneo (<em>scanlines</em>), ruido granulado (<em>noise</em>), desfase de canales de color (<em>RGB Split</em>), aberración cromática y barridos de píxeles (<em>pixel stretch / motion blur</em>).</p><p class="tag mt-3">&gt; En "UPGRADE": el barrido horizontal sobre el rostro y el grano general.</p></div>
-  <div class="panel hidden"><h3>5. Composición</h3><p>Estructura por capas de profundidad. Una retícula técnica de fondo, el personaje central como eje jerárquico (con contraste lumínico en el rostro), superposición de datos HUD asimétricos para crear tensión visual, y un título inferior de gran peso que ancla la pieza.</p><p class="tag mt-3">&gt; En "UPGRADE": figura central, HUD asimétrico y título anclado abajo.</p></div>
+ <div class="grid lg:grid-cols-3 gap-5">
+  <div class="card lg:col-span-2">
+   <div class="panel"><h3>1. Color</h3><p>Predominio de sombras profundas (negros y azules abisales) en alto contraste con colores luz neón (cian eléctrico, magenta, violeta). Simboliza la frialdad cibernética, la bioluminiscencia artificial y la noche perpetua de las metrópolis futuristas.</p><p class="tag mt-4">&gt; En "UPGRADE": el cian brillante baña piel y título sobre el fondo oscuro.</p></div>
+   <div class="panel hidden"><h3>2. Formas y elementos gráficos</h3><p>Uso de geometría técnica (hexágonos, vectores angulares, retículas de coordenadas, miras de escaneo facial) combinada con la figura humana intervenida o fragmentada por ondas digitales y códigos binarios.</p><p class="tag mt-4">&gt; En "UPGRADE": hexágonos superiores, miras de enfoque y el código "011".</p></div>
+   <div class="panel hidden"><h3>3. Tipografía</h3><p>Combinación de dos mundos: fuentes <em>Display</em> geométricas, pesadas, expandidas y en cursiva (que transmiten velocidad, impacto e industrialización, como en el título <em>"UPGRADE"</em>) junto con fuentes <em>Monospace</em> (monoespaciadas de terminal de código) para metadatos técnicos y lecturas de sistema.</p><p class="tag mt-4">&gt; En "UPGRADE": título display cursivo + textos de sistema monoespaciados.</p></div>
+   <div class="panel hidden"><h3>4. Texturas y materialidad</h3><p>Acabados de pantalla digital deteriorada: líneas de escaneo (<em>scanlines</em>), ruido granulado (<em>noise</em>), desfase de canales de color (<em>RGB Split</em>), aberración cromática y barridos de píxeles (<em>pixel stretch / motion blur</em>).</p><p class="tag mt-4">&gt; En "UPGRADE": el barrido horizontal sobre el rostro y el grano general.</p></div>
+   <div class="panel hidden"><h3>5. Composición</h3><p>Estructura por capas de profundidad. Una retícula técnica de fondo, el personaje central como eje jerárquico (con contraste lumínico en el rostro), superposición de datos HUD asimétricos para crear tensión visual, y un título inferior de gran peso que ancla la pieza.</p><p class="tag mt-4">&gt; En "UPGRADE": figura central, HUD asimétrico y título anclado abajo.</p></div>
+  </div>
+  <!-- Paleta interactiva: clic copia el HEX -->
+  <div class="card">
+   <p class="tag mb-3">// PALETA (clic para copiar)</p>
+   <div class="grid grid-cols-2 gap-2" id="pal">
+    <button class="btn !p-0 overflow-hidden text-left" data-c="#050508"><span class="block h-10" style="background:#050508"></span><span class="block p-1 text-xs">#050508</span></button>
+    <button class="btn !p-0 overflow-hidden text-left" data-c="#0a0f1d"><span class="block h-10" style="background:#0a0f1d"></span><span class="block p-1 text-xs">#0a0f1d</span></button>
+    <button class="btn !p-0 overflow-hidden text-left" data-c="#00f3ff"><span class="block h-10" style="background:#00f3ff"></span><span class="block p-1 text-xs">#00f3ff</span></button>
+    <button class="btn !p-0 overflow-hidden text-left" data-c="#0066ff"><span class="block h-10" style="background:#0066ff"></span><span class="block p-1 text-xs">#0066ff</span></button>
+   </div>
+   <p class="tag mt-3" id="palMsg">&nbsp;</p>
+  </div>
  </div>
 </section>
 
-<!-- 4. EMOCIÓN -->
+<!-- ================= 4. EMOCIÓN ================= -->
 <div class="alt"><section id="emocion" class="sec">
  <p class="tag">DATA LOG 004</p>
  <h2 class="disp neon h2 mb-8 rv"><span class="glitch" data-text="Comunicación visual y emoción">Comunicación visual y emoción</span></h2>
@@ -142,43 +250,51 @@ b,strong{color:var(--wh)}
   <div class="card rv"><h3>Análisis conceptual</h3><p>El Cyberpunk utiliza la saturación visual y la distorsión para provocar una sensación de <b>inmersión tecnológica, tensión distópica, misterio e hiper-vigilancia</b>. No busca la calma ni la armonía clásica; busca incomodar e hipnotizar al espectador, haciéndole sentir que está mirando a través de un sistema de seguridad hackeado o una mente cibernética.</p></div>
   <div class="card rv"><h3>Aplicación en nuestros ejemplos</h3><p>En el póster <em>"UPGRADE (Redefine your reality)"</em>, el barrido horizontal que difumina la mitad del rostro junto con las miras de reconocimiento facial y los textos (<code>Cybernetic implants: detected</code>, <code>Network access: restricted</code>) comunican la pérdida de la privacidad y la fusión entre cuerpo humano y software. El cian brillante sobre el fondo oscuro dirige la mirada inmediatamente a la expresión fría del personaje.</p></div>
  </div>
+ <div class="flex flex-wrap gap-2 mt-6">
+  <span class="tag self-center">// Palabras clave (clic):</span>
+  <button class="btn kw" data-k="Inmersión tecnológica: el espectador queda dentro de la pantalla.">Inmersión</button>
+  <button class="btn kw" data-k="Tensión distópica: oscuridad, saturación y asimetría.">Tensión</button>
+  <button class="btn kw" data-k="Misterio: el rostro queda a medias, difuminado.">Misterio</button>
+  <button class="btn kw" data-k="Hiper-vigilancia: miras de reconocimiento facial y datos del sistema.">Vigilancia</button>
+ </div>
+ <p class="mt-3 min-h-[2rem]" id="kwOut"></p>
 </section></div>
 
-<!-- 5. REFERENTES -->
+<!-- ================= 5. REFERENTES ================= -->
 <section id="referentes" class="sec">
- <p class="tag">DATA LOG 005</p>
+ <p class="tag">DATA LOG 005 // CLIC EN UNA IMAGEN PARA AMPLIARLA</p>
  <h2 class="disp neon h2 mb-8 rv"><span class="glitch" data-text="Referentes del estilo">Referentes del estilo</span></h2>
  <div class="grid lg:grid-cols-2 gap-6">
   <article class="card rv">
    <h3 class="text-xl">Syd Mead (1933–2019) — El "Futurista Visual"</h3>
    <p><b>Reseña:</b> Diseñador industrial y artista conceptual estadounidense, considerado el padre de la estética visual del cine sci-fi moderno.</p>
-   <p class="mt-2"><b>Aportes al estilo:</b> Definió el aspecto visual de <em>Blade Runner</em> (1982), <em>Tron</em> (1982) y <em>Aliens</em>. Transformó el diseño de transporte y arquitectura en visiones distópicas creíbles.</p>
-   <p class="mt-2"><b>Lenguaje visual:</b> Escenarios urbanos nocturnos empapados por la lluvia, contraste dramático entre arquitectura brutalista monumental y luces de neón publicitarias, vehículos aerodinámicos retro-futuristas y uso magistral de la perspectiva y el reflejo cromático.</p>
-   <p class="mt-2"><b>Obras representativas:</b> Concept art de Los Ángeles 2019 (<em>Blade Runner</em>), diseño de los <em>Spinners</em> (autos voladores) y el mundo digital de <em>Tron</em>.</p>
+   <p><b>Aportes al estilo:</b> Definió el aspecto visual de <em>Blade Runner</em> (1982), <em>Tron</em> (1982) y <em>Aliens</em>. Transformó el diseño de transporte y arquitectura en visiones distópicas creíbles.</p>
+   <p><b>Lenguaje visual:</b> Escenarios urbanos nocturnos empapados por la lluvia, contraste dramático entre arquitectura brutalista monumental y luces de neón publicitarias, vehículos aerodinámicos retro-futuristas y uso magistral de la perspectiva y el reflejo cromático.</p>
+   <p><b>Obras representativas:</b> Concept art de Los Ángeles 2019 (<em>Blade Runner</em>), diseño de los <em>Spinners</em> (autos voladores) y el mundo digital de <em>Tron</em>.</p>
    <div class="grid grid-cols-3 gap-2 mt-4">
     <!-- CAMBIAR AQUÍ LA RUTA DE LA IMAGEN (obras Syd Mead) -->
-    <img src="media/syd-mead-1.jpg" alt="Syd Mead obra 1" class="w-full aspect-square object-cover" onerror="this.outerHTML='<div class=&quot;ph aspect-square&quot;>syd-mead-1.jpg</div>'">
-    <img src="media/syd-mead-2.jpg" alt="Syd Mead obra 2" class="w-full aspect-square object-cover" onerror="this.outerHTML='<div class=&quot;ph aspect-square&quot;>syd-mead-2.jpg</div>'">
-    <img src="media/syd-mead-3.jpg" alt="Syd Mead obra 3" class="w-full aspect-square object-cover" onerror="this.outerHTML='<div class=&quot;ph aspect-square&quot;>syd-mead-3.jpg</div>'">
+    <img data-img="media/syd-mead-1.jpg" data-ph="media/syd-mead-1.jpg" data-phclass="aspect-square" alt="Syd Mead obra 1" class="zoom w-full aspect-square object-cover">
+    <img data-img="media/syd-mead-2.jpg" data-ph="media/syd-mead-2.jpg" data-phclass="aspect-square" alt="Syd Mead obra 2" class="zoom w-full aspect-square object-cover">
+    <img data-img="media/syd-mead-3.jpg" data-ph="media/syd-mead-3.jpg" data-phclass="aspect-square" alt="Syd Mead obra 3" class="zoom w-full aspect-square object-cover">
    </div>
   </article>
   <article class="card rv">
    <h3 class="text-xl">Katsuhiro Otomo (1954–presente) &amp; Hiroaki Samura / Estética Ciber-Manga (con mención a Ash Thorp en el diseño contemporáneo)</h3>
    <p><b>Reseña:</b> Otomo es un mangaka, director y diseñador japonés que revolucionó la animación y el diseño gráfico global con <em>Akira</em>. (Complementado en el diseño gráfico digital moderno por <b>Ash Thorp</b>, director de arte y diseñador de interfaces FUI para <em>Ghost in the Shell</em> y <em>Total Recall</em>).</p>
-   <p class="mt-2"><b>Aportes al estilo:</b> Consolidó el concepto de <b>Neo-Tokyo</b>, integrando la estética de las pandillas de motociclistas, la mutación biomecánica, los cables industriales y las interfaces gráficas de usuario (HUD/FUI) hiper-detalladas.</p>
-   <p class="mt-2"><b>Lenguaje visual:</b> Composiciones dinámicas de alto impacto, cables y tubos orgánico-mecánicos, explosiones de luz sobre fondos oscuros, tipografía japonesa e inglesa condensada de alto impacto y gráficos de telemetría médica/militar.</p>
-   <p class="mt-2"><b>Obras representativas:</b> Póster oficial y manga de <em>Akira</em> (1982/1988), interfaces gráficas de <em>Ghost in the Shell</em> y proyectos de diseño FUI de Ash Thorp.</p>
+   <p><b>Aportes al estilo:</b> Consolidó el concepto de <b>Neo-Tokyo</b>, integrando la estética de las pandillas de motociclistas, la mutación biomecánica, los cables industriales y las interfaces gráficas de usuario (HUD/FUI) hiper-detalladas.</p>
+   <p><b>Lenguaje visual:</b> Composiciones dinámicas de alto impacto, cables y tubos orgánico-mecánicos, explosiones de luz sobre fondos oscuros, tipografía japonesa e inglesa condensada de alto impacto y gráficos de telemetría médica/militar.</p>
+   <p><b>Obras representativas:</b> Póster oficial y manga de <em>Akira</em> (1982/1988), interfaces gráficas de <em>Ghost in the Shell</em> y proyectos de diseño FUI de Ash Thorp.</p>
    <div class="grid grid-cols-3 gap-2 mt-4">
     <!-- CAMBIAR AQUÍ LA RUTA DE LA IMAGEN (obras Otomo / Ash Thorp) -->
-    <img src="media/otomo-1.jpg" alt="Otomo obra 1" class="w-full aspect-square object-cover" onerror="this.outerHTML='<div class=&quot;ph aspect-square&quot;>otomo-1.jpg</div>'">
-    <img src="media/otomo-2.jpg" alt="Otomo obra 2" class="w-full aspect-square object-cover" onerror="this.outerHTML='<div class=&quot;ph aspect-square&quot;>otomo-2.jpg</div>'">
-    <img src="media/otomo-3.jpg" alt="Ash Thorp obra" class="w-full aspect-square object-cover" onerror="this.outerHTML='<div class=&quot;ph aspect-square&quot;>thorp-1.jpg</div>'">
+    <img data-img="media/otomo-1.jpg" data-ph="media/otomo-1.jpg" data-phclass="aspect-square" alt="Otomo obra 1" class="zoom w-full aspect-square object-cover">
+    <img data-img="media/otomo-2.jpg" data-ph="media/otomo-2.jpg" data-phclass="aspect-square" alt="Otomo obra 2" class="zoom w-full aspect-square object-cover">
+    <img data-img="media/otomo-3.jpg" data-ph="media/otomo-3.jpg" data-phclass="aspect-square" alt="Ash Thorp obra" class="zoom w-full aspect-square object-cover">
    </div>
   </article>
  </div>
 </section>
 
-<!-- 6. TENDENCIAS -->
+<!-- ================= 6. TENDENCIAS ================= -->
 <div class="alt"><section id="tendencias" class="sec">
  <p class="tag">DATA LOG 006 // ANTES VS. AHORA</p>
  <h2 class="disp neon h2 mb-8 rv"><span class="glitch" data-text="Tendencias actuales">Tendencias actuales</span></h2>
@@ -198,31 +314,52 @@ b,strong{color:var(--wh)}
  </div>
 </section></div>
 
-<!-- 7. PROCESO -->
+<!-- ================= 7. PROCESO ================= -->
 <section id="proceso" class="sec">
  <p class="tag">DATA LOG 007 // PHOTOSHOP</p>
  <h2 class="disp neon h2 mb-4 rv"><span class="glitch" data-text="Video tutoriales y proceso de creación">Video tutoriales y proceso de creación</span></h2>
- <p class="mb-8 max-w-3xl">Presentamos cómo llevamos la teoría del Cyberpunk y las tendencias <em>Glitchcore</em> y <em>Tech-Noir</em> a la práctica mediante la creación desde cero de nuestro póster <b>"UPGRADE"</b> en Adobe Photoshop.</p>
- <div class="grid lg:grid-cols-2 gap-6 mb-12">
+ <p class="mb-8">Presentamos cómo llevamos la teoría del Cyberpunk y las tendencias <em>Glitchcore</em> y <em>Tech-Noir</em> a la práctica mediante la creación desde cero de nuestro póster <b>"UPGRADE"</b> en Adobe Photoshop.</p>
+
+ <div class="grid lg:grid-cols-2 gap-6 mb-14">
   <div class="card">
-   <div class="vid mb-4">
-    <!-- CAMBIAR AQUÍ EL LINK DE YOUTUBE (VIDEO 1): reemplaza VIDEO_ID_1 -->
-    <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="Tutorial Parte 1" allowfullscreen loading="lazy"></iframe>
-   </div>
+   <!-- CAMBIAR AQUÍ EL LINK DE YOUTUBE (VIDEO 1): pega el link completo o solo el ID de 11 caracteres en data-yt -->
+   <div class="vid mb-4" data-yt="VIDEO_ID_1" data-title="Tutorial Parte 1"></div>
    <h3>TUTORIAL PARTE 1: Composición, Tratamiento de Color y Efectos de Distorsión (Glitch &amp; Scanlines)</h3>
    <p>Explicación paso a paso del montaje base, el recorte del personaje, la creación de la atmósfera nocturna y la ruptura de la imagen.</p>
   </div>
   <div class="card">
-   <div class="vid mb-4">
-    <!-- CAMBIAR AQUÍ EL LINK DE YOUTUBE (VIDEO 2): reemplaza VIDEO_ID_2 -->
-    <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="Tutorial Parte 2" allowfullscreen loading="lazy"></iframe>
-   </div>
+   <!-- CAMBIAR AQUÍ EL LINK DE YOUTUBE (VIDEO 2): pega el link completo o solo el ID de 11 caracteres en data-yt -->
+   <div class="vid mb-4" data-yt="VIDEO_ID_2" data-title="Tutorial Parte 2"></div>
    <h3>TUTORIAL PARTE 2: Acabados Lumínicos, Aberración Cromática, Tipografía e Interfaz HUD</h3>
    <p>Explicación de cómo se integraron los vectores hexagonales, las coordenadas de Neo-Tokyo, el resplandor neón de la tipografía y el texturizado final.</p>
   </div>
  </div>
 
- <h3 class="disp neon text-xl mb-4">Desglose técnico de efectos y herramientas de Photoshop</h3>
+ <!-- LABORATORIO -->
+ <h3 class="disp neon text-xl mb-2">Laboratorio glitch: prueba los efectos en vivo</h3>
+ <p class="mb-5">Mueve los controles para ver cómo cambia el póster con cada técnica del desglose.</p>
+ <div class="card grid md:grid-cols-2 gap-6 mb-14" id="lab">
+  <div class="stage mx-auto w-full max-w-xs aspect-[7/10]" id="stage">
+   <img id="labA" alt="Póster con efectos" class="object-cover" style="filter:url(#rgbsplit)">
+   <img id="labB" alt="" aria-hidden="true" class="object-cover" style="opacity:0">
+   <div id="labScan" style="background:repeating-linear-gradient(0deg,rgba(0,0,0,.9) 0 2px,transparent 2px 4px);opacity:0;mix-blend-mode:multiply"></div>
+   <div id="labNoise" style="opacity:0;mix-blend-mode:overlay;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>&quot;)"></div>
+  </div>
+  <div class="flex flex-col justify-center gap-4 mono">
+   <label>RGB Split: <b id="vR">0</b> px<input type="range" id="rR" min="0" max="20" value="0"></label>
+   <label>Glitch / barrido: <b id="vG">0</b>%<input type="range" id="rG" min="0" max="100" value="0"></label>
+   <label>Scanlines: <b id="vS">0</b>%<input type="range" id="rS" min="0" max="100" value="0"></label>
+   <label>Ruido: <b id="vN">0</b>%<input type="range" id="rN" min="0" max="100" value="0"></label>
+   <div class="flex gap-2 flex-wrap"><button class="btn" id="labRand">Aleatorio</button><button class="btn" id="labPreset">Look UPGRADE</button><button class="btn" id="labReset">Reset</button></div>
+  </div>
+ </div>
+
+ <div class="flex flex-wrap items-center gap-3 mb-4">
+  <h3 class="disp neon text-xl">Desglose técnico de efectos y herramientas de Photoshop</h3>
+  <span class="tag" id="seen">Revisados: 0/6</span>
+  <button class="btn ml-auto" id="toggleAll">Expandir todo</button>
+ </div>
+ <div id="fx">
  <details open><summary>1. Glitch &amp; Displacement (Desplazamiento / Barrido de píxeles)</summary><div>
   <p><b>Función:</b> Romper la continuidad de la figura humana para simular interferencia de señal.</p>
   <p><b>Procedimiento y Parámetros:</b> Uso de la herramienta <em>Marco Rectangular</em> en franjas horizontales, filtro <em>Distorsionar &gt; Desplazar</em> (o <em>Estilizar &gt; Viento</em> / <em>Desenfoque de movimiento</em> a 0° con distancia de 80-150px) sobre una capa duplicada del rostro.</p></div></details>
@@ -241,25 +378,265 @@ b,strong{color:var(--wh)}
  <details><summary>6. HUD / Elementos Vectoriales y Retícula</summary><div>
   <p><b>Función:</b> Construir la narrativa de vigilancia e interfaz de datos (<em>Tech-Noir</em>).</p>
   <p><b>Procedimiento:</b> Uso de herramientas de formas personalizadas (hexágonos, líneas de 1px, cruces de coordenadas) y marcos de enfoque con opacidad al 70% y modo de fusión <em>Trama</em>.</p></div></details>
+ </div>
 </section>
 
-<footer class="text-center py-8 text-xs text-[#00f3ff]/70 border-t border-[#00f3ff]/20">
- 35.6895° N, 139.6917° E | Sector: Neo-Tokyo | Signal strength: 98.7% | Network access: restricted | DATA LOG 011
+<footer class="text-center py-8 px-4 text-sm mono text-[#00f3ff]/80 border-t border-[#00f3ff]/20">
+ 35.6895° N, 139.6917° E | Sector: Neo-Tokyo | Signal strength: 98.7% | Network access: restricted | DATA LOG 011<br>
+ <span class="opacity-70">Teclado: ← → cambian de sección · Esc cierra imágenes · C activa/desactiva CRT</span>
 </footer>
 
 <script>
-// Tabs ADN
-const tb=[...document.querySelectorAll('#tabs .btn')],pn=[...document.querySelectorAll('#adn .panel')];
-tb.forEach(b=>b.onclick=()=>{tb.forEach(x=>x.classList.toggle('on',x===b));pn.forEach((p,i)=>p.classList.toggle('hidden',i!=b.dataset.t))});
-// Antes vs Ahora
-document.querySelectorAll('.ba').forEach(c=>{const bs=c.querySelectorAll('.btn'),ss=c.querySelectorAll('.s');
- bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.classList.toggle('on',x===b));ss.forEach((s,i)=>s.classList.toggle('hidden',i!=b.dataset.s))})});
-// Reveal
-const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-// Hero glitch pulse
-const g=document.querySelector('.glitch.auto');
-setInterval(()=>{g.classList.remove('auto');setTimeout(()=>g.classList.add('auto'),600)},3500);
+/* ========================================================
+   UTILIDADES
+   ======================================================== */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ========================================================
+   CARGA ROBUSTA DE IMÁGENES (arregla 404 en GitHub Pages)
+   GitHub Pages distingue MAYÚSCULAS/minúsculas y extensiones
+   (.jpg ≠ .jpeg ≠ .JPG). Probamos variantes hasta encontrar
+   la que existe en /media.
+   ======================================================== */
+const imgCache = {};
+function candidates(src){
+  const m = src.match(/^(.*\/)?([^\/]+?)\.(\w+)$/);
+  if(!m) return [src];
+  const dir = m[1] || '', base = m[2];
+  const bases = [base, base.toLowerCase(), base.charAt(0).toUpperCase() + base.slice(1).toLowerCase()];
+  const exts  = ['jpg','jpeg','png','webp','JPG','JPEG','PNG'];
+  const list  = [src];
+  bases.forEach(b => exts.forEach(e => list.push(dir + b + '.' + e)));
+  return [...new Set(list)];
+}
+function resolveSrc(src){
+  if(imgCache[src]) return imgCache[src];
+  return imgCache[src] = new Promise(done => {
+    const list = candidates(src);
+    (function next(i){
+      if(i >= list.length) return done(null);
+      const t = new Image();
+      t.onload  = () => done(list[i]);
+      t.onerror = () => next(i + 1);
+      t.src = list[i];
+    })(0);
+  });
+}
+function placeholder(img){
+  const d = document.createElement('div');
+  d.className = 'ph ' + (img.dataset.phclass || '');
+  d.textContent = img.dataset.ph || img.alt;
+  img.replaceWith(d);
+}
+$$('img[data-img]').forEach(img => {
+  resolveSrc(img.dataset.img).then(ok => ok ? (img.src = ok) : placeholder(img));
+});
+
+/* ========================================================
+   VIDEOS DE YOUTUBE
+   Acepta link completo o ID. Si sigue el placeholder, muestra
+   "NO SIGNAL" en lugar del error de YouTube.
+   ======================================================== */
+function ytId(v){
+  if(!v || v.includes('VIDEO_ID')) return null;
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/) || v.match(/^([\w-]{11})$/);
+  return m ? m[1] : null;
+}
+$$('.vid').forEach(box => {
+  const id = ytId(box.dataset.yt);
+  if(id){
+    // referrerpolicy evita el "Error 153" de YouTube al estar alojado en GitHub Pages
+    box.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?rel=0" title="${box.dataset.title}"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>`;
+  } else {
+    box.innerHTML = `<div class="nosig"><b class="disp text-xl">NO SIGNAL</b><span>${box.dataset.title}: pega el link de YouTube en data-yt</span></div>`;
+  }
+});
+
+/* ========================================================
+   NAV: progreso de scroll, sección activa, CRT, teclado
+   ======================================================== */
+const ids = ['hero','contexto','adn','emocion','referentes','tendencias','proceso'];
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  $('#bar').style.width = (scrollY / (h.scrollHeight - innerHeight) * 100) + '%';
+}, {passive:true});
+const spy = new IntersectionObserver(es => es.forEach(e => {
+  if(e.isIntersecting) $$('#nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+}), {rootMargin:'-45% 0px -50% 0px'});
+ids.forEach(i => spy.observe($('#' + i)));
+
+function toggleCRT(){
+  const off = document.body.classList.toggle('nofx');
+  $('#crt').textContent = 'CRT: ' + (off ? 'OFF' : 'ON');
+  $('#crt').setAttribute('aria-pressed', !off);
+}
+$('#crt').onclick = toggleCRT;
+function currentIdx(){
+  let idx = 0;
+  ids.forEach((id,i) => { if($('#'+id).getBoundingClientRect().top <= innerHeight * .4) idx = i; });
+  return idx;
+}
+addEventListener('keydown', e => {
+  if(e.target.matches('input')) return;
+  if(e.key === 'ArrowRight') { $('#' + ids[Math.min(ids.length-1, currentIdx()+1)]).scrollIntoView(); }
+  if(e.key === 'ArrowLeft')  { $('#' + ids[Math.max(0, currentIdx()-1)]).scrollIntoView(); }
+  if(e.key.toLowerCase() === 'c') toggleCRT();
+  if(e.key === 'Escape') $('#lb').classList.remove('open');
+});
+
+/* ========================================================
+   RETÍCULA DE CURSOR + COORDENADAS
+   ======================================================== */
+const ret = $('#reticle'); let mx=0,my=0,rx=0,ry=0;
+addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY; ret.classList.add('show');
+  $('#xy').textContent = `[ X:${String(mx).padStart(3,'0')} Y:${String(my).padStart(3,'0')} ]`;
+  ret.classList.toggle('big', !!e.target.closest('button,a,summary,.zoom'));
+});
+(function loop(){ rx += (mx-rx)*.2; ry += (my-ry)*.2; ret.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop); })();
+
+/* ========================================================
+   HERO: escritura del subtítulo, HUD que "arranca", señal viva
+   ======================================================== */
+function typeText(el){
+  const t = el.dataset.type; if(reduce) return;
+  el.textContent = ''; el.classList.add('caret'); let i = 0;
+  const id = setInterval(() => { el.textContent = t.slice(0, ++i); if(i >= t.length){ clearInterval(id); el.classList.remove('caret'); } }, 22);
+}
+function bootHud(){
+  $$('#hud .st').forEach((s,i) => {
+    s.textContent = 'scanning...'; s.style.color = 'var(--mut)';
+    setTimeout(() => { s.textContent = s.dataset.v; s.style.color = 'var(--cy)'; }, reduce ? 0 : 500 + i*450);
+  });
+}
+typeText($('#sub')); bootHud();
+$('#rescan').onclick = () => { bootHud(); typeText($('#sub')); };
+setInterval(() => { $('#sig').textContent = (97.4 + Math.random()*2).toFixed(1); }, 1300);
+const hg = $('.glitch.auto');
+setInterval(() => { hg.classList.remove('auto'); setTimeout(() => hg.classList.add('auto'), 600); }, 3500);
+
+/* ========================================================
+   REVEAL + EFECTO "DESCIFRAR" EN TÍTULOS
+   ======================================================== */
+function scramble(el){
+  if(reduce) return;
+  const t = el.dataset.text, ch = '01#$%&@<>/|'; let i = 0;
+  const id = setInterval(() => {
+    el.textContent = [...t].map((c,k) => c === ' ' ? ' ' : (k < i ? c : ch[Math.random()*ch.length|0])).join('');
+    i += Math.max(1, t.length/16|0);
+    if(i > t.length){ el.textContent = t; clearInterval(id); }
+  }, 35);
+}
+const io = new IntersectionObserver(es => es.forEach(x => {
+  if(!x.isIntersecting) return;
+  x.target.classList.add('in');
+  const g = x.target.querySelector('h2 .glitch'); if(g) scramble(g);
+  io.unobserve(x.target);
+}), {threshold:.15});
+$$('.rv').forEach(el => io.observe(el));
+
+/* ========================================================
+   LÍNEA DE TIEMPO
+   ======================================================== */
+const TL = [
+  '<b>1982 — </b><em>Blade Runner</em> y <em>Tron</em> definen el aspecto visual del cine sci-fi moderno con el diseño de Syd Mead.',
+  '<b>1984 — </b>William Gibson publica <em>Neuromante</em>, la novela que fija el vocabulario del género.',
+  '<b>1988 — </b><em>Akira</em>, de Katsuhiro Otomo, consolida la imagen de Neo-Tokyo.',
+  '<b>1995 — </b><em>Ghost in the Shell</em> lleva las interfaces HUD y la fusión cuerpo-máquina al anime.',
+  '<b>2020 — </b><em>Cyberpunk 2077</em> populariza el estilo para una nueva generación y el Tech-Noir vuelve al diseño de interfaces.'
+];
+$$('#tl .btn').forEach(b => b.onclick = () => {
+  $$('#tl .btn').forEach(x => x.classList.toggle('on', x === b));
+  $('#tlText').innerHTML = TL[b.dataset.i];
+});
+
+/* ========================================================
+   ADN: pestañas, puntos del póster, paleta
+   ======================================================== */
+const tabs = $$('#tabs .btn'), panels = $$('#adn .panel');
+function showTab(i){
+  tabs.forEach((b,k) => b.classList.toggle('on', k == i));
+  panels.forEach((p,k) => p.classList.toggle('hidden', k != i));
+}
+tabs.forEach(b => b.onclick = () => showTab(b.dataset.t));
+$$('.hot').forEach(h => h.onclick = () => { showTab(h.dataset.pillar); $('#adn').scrollIntoView(); });
+$$('#pal button').forEach(b => b.onclick = () => {
+  navigator.clipboard?.writeText(b.dataset.c);
+  $('#palMsg').textContent = '> ' + b.dataset.c + ' copiado';
+});
+
+/* Emoción: palabras clave */
+$$('.kw').forEach(b => b.onclick = () => {
+  $$('.kw').forEach(x => x.classList.toggle('on', x === b));
+  $('#kwOut').textContent = b.dataset.k;
+});
+
+/* Tendencias: antes / ahora */
+$$('.ba').forEach(c => {
+  const bs = $$('.btn', c), ss = $$('.s', c);
+  bs.forEach(b => b.onclick = () => {
+    bs.forEach(x => x.classList.toggle('on', x === b));
+    ss.forEach((s,i) => s.classList.toggle('hidden', i != b.dataset.s));
+  });
+});
+
+/* ========================================================
+   LIGHTBOX
+   ======================================================== */
+document.addEventListener('click', e => {
+  const z = e.target.closest('img.zoom');
+  if(z){ $('#lb img').src = z.src; $('#lb').classList.add('open'); }
+  else if(e.target.closest('#lb')) $('#lb').classList.remove('open');
+});
+
+/* ========================================================
+   LABORATORIO GLITCH
+   ======================================================== */
+const labA = $('#labA'), labB = $('#labB');
+resolveSrc($('#poster').dataset.img).then(src => {
+  if(!src){ $('#stage').innerHTML = '<div class="ph">[ PÓSTER ] media/Poster.jpeg</div>'; return; }
+  labA.src = src; labB.src = src;
+});
+const L = {R:0, G:0, S:0, N:0};
+function applyLab(){
+  $('#fR').setAttribute('dx', -L.R); $('#fB').setAttribute('dx', L.R);
+  $('#labScan').style.opacity = L.S / 100;
+  $('#labNoise').style.opacity = L.N / 100;
+  [['R','vR'],['G','vG'],['S','vS'],['N','vN']].forEach(([k,v]) => { $('#'+v).textContent = L[k]; $('#r'+k).value = L[k]; });
+}
+['R','G','S','N'].forEach(k => $('#r'+k).oninput = e => { L[k] = +e.target.value; applyLab(); });
+$('#labReset').onclick  = () => { Object.assign(L,{R:0,G:0,S:0,N:0}); applyLab(); };
+$('#labPreset').onclick = () => { Object.assign(L,{R:6,G:45,S:30,N:25}); applyLab(); };
+$('#labRand').onclick   = () => { L.R = Math.random()*20|0; L.G = Math.random()*100|0; L.S = Math.random()*100|0; L.N = Math.random()*100|0; applyLab(); };
+// barrido horizontal: franja desplazada que salta al azar
+setInterval(() => {
+  if(L.G === 0 || Math.random() * 100 > L.G){ labB.style.opacity = 0; return; }
+  const top = Math.random()*85, h = 3 + Math.random()*12;
+  labB.style.clipPath = `inset(${top}% 0 ${100-top-h}% 0)`;
+  labB.style.transform = `translateX(${(Math.random()-.5) * L.G * .6}px)`;
+  labB.style.opacity = 1;
+}, 110);
+applyLab();
+
+/* ========================================================
+   ACORDEÓN: contador de efectos revisados + expandir todo
+   ======================================================== */
+const dets = $$('#fx details');
+function countSeen(){ $('#seen').textContent = `Revisados: ${dets.filter(d => d.classList.contains('seen')).length}/${dets.length}`; }
+dets.forEach(d => {
+  if(d.open) d.classList.add('seen');
+  d.addEventListener('toggle', () => { if(d.open) d.classList.add('seen'); countSeen(); });
+});
+countSeen();
+$('#toggleAll').onclick = e => {
+  const open = e.target.textContent === 'Expandir todo';
+  dets.forEach(d => d.open = open);
+  e.target.textContent = open ? 'Contraer todo' : 'Expandir todo';
+};
 </script>
 </body>
 </html>
