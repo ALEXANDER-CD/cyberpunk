@@ -94,6 +94,13 @@ body.nofx::before,body.nofx::after{display:none}
 #lb.open{display:flex}
 #lb img{max-width:100%;max-height:100%;border:1px solid var(--cy)}
 
+/* ============ GALERÍA VISUAL ============ */
+.visual-card{padding:1rem;overflow:hidden}
+.visual-card img{border:1px solid rgba(0,243,255,.35);filter:saturate(.85) contrast(1.08);transition:transform .35s,filter .35s}
+.visual-card:hover img{transform:scale(1.025);filter:saturate(1.2) contrast(1.12)}
+.visual-card figcaption p{font-size:.95rem;line-height:1.5}
+@media(max-width:640px){.visual-card{padding:.8rem}.visual-card img{aspect-ratio:16/10}}
+
 /* ============ TIMELINE ============ */
 .tl{display:flex;gap:.5rem;flex-wrap:wrap}
 
@@ -142,7 +149,7 @@ input[type=range]{width:100%;accent-color:var(--cy)}
 <header class="nav fixed top-0 inset-x-0 z-50">
  <nav class="flex items-center gap-1 overflow-x-auto px-3 py-2" id="nav">
   <span class="disp text-xs text-white mr-3">&gt;_UPGRADE</span>
-  <a href="#hero">/inicio</a><a href="#contexto">/contexto</a><a href="#adn">/adn</a><a href="#emocion">/emoción</a><a href="#referentes">/referentes</a><a href="#tendencias">/tendencias</a><a href="#proceso">/proceso</a>
+  <a href="#hero">/inicio</a><a href="#contexto">/contexto</a><a href="#archivo-visual">/archivo visual</a><a href="#adn">/adn</a><a href="#emocion">/emoción</a><a href="#referentes">/referentes</a><a href="#tendencias">/tendencias</a><a href="#proceso">/proceso</a>
   <button class="btn ml-auto !py-1 !px-2 text-xs" id="crt" aria-pressed="true" title="Activar/desactivar scanlines y grano">CRT: ON</button>
  </nav>
  <div id="bar"></div>
@@ -203,15 +210,37 @@ input[type=range]{width:100%;accent-color:var(--cy)}
 
  <div class="grid md:grid-cols-2 gap-5">
   <article class="card rv"><p class="tag">FILE_01</p><h3>¿En qué época y lugar surgió? ¿Qué estaba sucediendo?</h3>
-   <p>Surgió a finales de los años 70 y principios de los 80 en Estados Unidos, Reino Unido y Japón (con Tokio como epicentro visual). El mundo atravesaba la recta final de la Guerra Fría, crisis económicas post-industriales, el ascenso de megacorporaciones multinacionales y la llegada masiva de las computadoras personales. Existía una fuerte paranoia social ante la deshumanización y el control corporativo.</p></article>
+   <p>Nació entre finales de los 70 y los 80, principalmente en Estados Unidos, Reino Unido y Japón. La Guerra Fría, el auge de las corporaciones y la expansión de las computadoras alimentaron el temor al control tecnológico y a la deshumanización.</p></article>
   <article class="card rv"><p class="tag">FILE_02</p><h3>Movimientos artísticos, cambios sociales y expresiones culturales</h3>
-   <p>Nació de la fusión entre la literatura de ciencia ficción de la <em>New Wave</em> (William Gibson con <em>Neuromante</em>, Bruce Sterling) y la actitud contracultural y rebelde del movimiento <b>Punk</b>. Se nutrió del cine <em>Tech-Noir</em> (<em>Blade Runner</em>, 1982), el manga y anime japonés (<em>Akira</em>, 1988; <em>Ghost in the Shell</em>, 1995) y la música electrónica industrial y <em>Synthwave</em>.</p></article>
+   <p>Mezcla ciencia ficción, rebeldía <b>punk</b>, cine <em>tech-noir</em>, manga, anime y música electrónica. Destacan <em>Blade Runner</em>, <em>Neuromante</em>, <em>Akira</em> y <em>Ghost in the Shell</em>.</p></article>
   <article class="card rv md:col-span-2"><p class="tag">FILE_03</p><h3>Condiciones de producción y avances tecnológicos</h3>
-   <p>El auge de los monitores CRT (tubos de rayos catódicos), el video doméstico (VHS), los primeros videojuegos arcade, las redes informáticas primitivas y los sintetizadores permitieron experimentar con gráficos generados por computadora, distorsiones de señal analógica y estética de terminal de comandos.</p></article>
+   <p>Los monitores CRT, el VHS, los videojuegos arcade, las primeras redes y los sintetizadores inspiraron sus pantallas, códigos, interferencias y gráficos digitales.</p></article>
   <article class="card rv md:col-span-2" style="border-color:var(--cy)"><p class="tag">CONCLUSIÓN // ORIGEN DE SU ESTÉTICA: "HIGH TECH, LOW LIFE"</p><h3>¿Por qué se ve así?</h3>
-   <p>Su lenguaje visual responde al lema <em>"Alta tecnología, baja calidad de vida"</em>. La oscuridad opresiva de los fondos representa la decadencia urbana y la alienación humana, mientras que los neones hiper-saturados, las interfaces de datos (HUD) y los efectos <em>glitch</em> simbolizan la invasión tecnológica, la saturación publicitaria corporativa y la fragilidad de la realidad digital frente a la biológica.</p></article>
+   <p>El lema <em>“alta tecnología, baja calidad de vida”</em> resume su estética: sombras para la decadencia urbana, neones para la saturación tecnológica y glitches e interfaces para expresar una realidad digital inestable.</p></article>
  </div>
 </section></div>
+
+<!-- ================= ARCHIVO VISUAL ================= -->
+<section id="archivo-visual" class="sec">
+ <p class="tag">DATA LOG 002.5 // REFERENCIAS VISUALES</p>
+ <h2 class="disp neon h2 mb-3 rv">Archivo visual: atmósfera Cyberpunk</h2>
+ <p class="mb-6 rv">Tres recursos que definen el imaginario: ciudad nocturna, luz artificial y distorsión digital. Selecciona una imagen para ampliarla.</p>
+ <div class="visual-grid grid md:grid-cols-3 gap-4">
+  <figure class="card visual-card rv">
+   <img class="zoom w-full aspect-[4/3] object-cover" loading="lazy" src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=85" alt="Arquitectura urbana nocturna y luces de ciudad">
+   <figcaption class="mt-3"><span class="tag">01 // MEGACIUDAD</span><p class="mt-1">Densidad urbana, escala monumental y noche.</p></figcaption>
+  </figure>
+  <figure class="card visual-card rv">
+   <img class="zoom w-full aspect-[4/3] object-cover" loading="lazy" src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1000&q=85" alt="Luces de color y ambiente tecnológico">
+   <figcaption class="mt-3"><span class="tag">02 // LUZ ARTIFICIAL</span><p class="mt-1">Contraste cromático y sensación tecnológica.</p></figcaption>
+  </figure>
+  <figure class="card visual-card rv">
+   <img class="zoom w-full aspect-[4/3] object-cover" loading="lazy" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85" alt="Paisaje nocturno de alto contraste">
+   <figcaption class="mt-3"><span class="tag">03 // ATMÓSFERA</span><p class="mt-1">Oscuridad, misterio y profundidad visual.</p></figcaption>
+  </figure>
+ </div>
+ <p class="tag mt-4">Nota: imágenes de ambiente como apoyo visual; no son obras originales de los referentes.</p>
+</section>
 
 <!-- ================= 3. ADN ================= -->
 <section id="adn" class="sec">
@@ -222,11 +251,11 @@ input[type=range]{width:100%;accent-color:var(--cy)}
  </div>
  <div class="grid lg:grid-cols-3 gap-5">
   <div class="card lg:col-span-2">
-   <div class="panel"><h3>1. Color</h3><p>Predominio de sombras profundas (negros y azules abisales) en alto contraste con colores luz neón (cian eléctrico, magenta, violeta). Simboliza la frialdad cibernética, la bioluminiscencia artificial y la noche perpetua de las metrópolis futuristas.</p><p class="tag mt-4">&gt; En "UPGRADE": el cian brillante baña piel y título sobre el fondo oscuro.</p></div>
-   <div class="panel hidden"><h3>2. Formas y elementos gráficos</h3><p>Uso de geometría técnica (hexágonos, vectores angulares, retículas de coordenadas, miras de escaneo facial) combinada con la figura humana intervenida o fragmentada por ondas digitales y códigos binarios.</p><p class="tag mt-4">&gt; En "UPGRADE": hexágonos superiores, miras de enfoque y el código "011".</p></div>
-   <div class="panel hidden"><h3>3. Tipografía</h3><p>Combinación de dos mundos: fuentes <em>Display</em> geométricas, pesadas, expandidas y en cursiva (que transmiten velocidad, impacto e industrialización, como en el título <em>"UPGRADE"</em>) junto con fuentes <em>Monospace</em> (monoespaciadas de terminal de código) para metadatos técnicos y lecturas de sistema.</p><p class="tag mt-4">&gt; En "UPGRADE": título display cursivo + textos de sistema monoespaciados.</p></div>
-   <div class="panel hidden"><h3>4. Texturas y materialidad</h3><p>Acabados de pantalla digital deteriorada: líneas de escaneo (<em>scanlines</em>), ruido granulado (<em>noise</em>), desfase de canales de color (<em>RGB Split</em>), aberración cromática y barridos de píxeles (<em>pixel stretch / motion blur</em>).</p><p class="tag mt-4">&gt; En "UPGRADE": el barrido horizontal sobre el rostro y el grano general.</p></div>
-   <div class="panel hidden"><h3>5. Composición</h3><p>Estructura por capas de profundidad. Una retícula técnica de fondo, el personaje central como eje jerárquico (con contraste lumínico en el rostro), superposición de datos HUD asimétricos para crear tensión visual, y un título inferior de gran peso que ancla la pieza.</p><p class="tag mt-4">&gt; En "UPGRADE": figura central, HUD asimétrico y título anclado abajo.</p></div>
+   <div class="panel"><h3>1. Color</h3><p>Negros y azules profundos contrastan con cian, magenta y violeta neón. La paleta evoca ciudades nocturnas, frialdad tecnológica y energía artificial.</p><p class="tag mt-4">&gt; En "UPGRADE": el cian brillante baña piel y título sobre el fondo oscuro.</p></div>
+   <div class="panel hidden"><h3>2. Formas y elementos gráficos</h3><p>Retículas, hexágonos, coordenadas, miras de escaneo y códigos se combinan con rostros o cuerpos fragmentados digitalmente.</p><p class="tag mt-4">&gt; En "UPGRADE": hexágonos superiores, miras de enfoque y el código "011".</p></div>
+   <div class="panel hidden"><h3>3. Tipografía</h3><p>Los títulos usan tipografías display, geométricas y pesadas; los datos emplean fuentes monoespaciadas que recuerdan terminales y sistemas informáticos.</p><p class="tag mt-4">&gt; En "UPGRADE": título display cursivo + textos de sistema monoespaciados.</p></div>
+   <div class="panel hidden"><h3>4. Texturas y materialidad</h3><p>Scanlines, grano, aberración cromática, separación RGB y barridos de píxeles imitan pantallas defectuosas e interferencias analógicas.</p><p class="tag mt-4">&gt; En "UPGRADE": el barrido horizontal sobre el rostro y el grano general.</p></div>
+   <div class="panel hidden"><h3>5. Composición</h3><p>La composición combina retículas, figura protagonista, datos HUD asimétricos y un título dominante. Las capas crean profundidad, tensión y jerarquía visual.</p><p class="tag mt-4">&gt; En "UPGRADE": figura central, HUD asimétrico y título anclado abajo.</p></div>
   </div>
   <!-- Paleta interactiva: clic copia el HEX -->
   <div class="card">
@@ -247,8 +276,8 @@ input[type=range]{width:100%;accent-color:var(--cy)}
  <p class="tag">DATA LOG 004</p>
  <h2 class="disp neon h2 mb-8 rv"><span class="glitch" data-text="Comunicación visual y emoción">Comunicación visual y emoción</span></h2>
  <div class="grid md:grid-cols-2 gap-5">
-  <div class="card rv"><h3>Análisis conceptual</h3><p>El Cyberpunk utiliza la saturación visual y la distorsión para provocar una sensación de <b>inmersión tecnológica, tensión distópica, misterio e hiper-vigilancia</b>. No busca la calma ni la armonía clásica; busca incomodar e hipnotizar al espectador, haciéndole sentir que está mirando a través de un sistema de seguridad hackeado o una mente cibernética.</p></div>
-  <div class="card rv"><h3>Aplicación en nuestros ejemplos</h3><p>En el póster <em>"UPGRADE (Redefine your reality)"</em>, el barrido horizontal que difumina la mitad del rostro junto con las miras de reconocimiento facial y los textos (<code>Cybernetic implants: detected</code>, <code>Network access: restricted</code>) comunican la pérdida de la privacidad y la fusión entre cuerpo humano y software. El cian brillante sobre el fondo oscuro dirige la mirada inmediatamente a la expresión fría del personaje.</p></div>
+  <div class="card rv"><h3>Análisis conceptual</h3><p>El contraste, la saturación y la distorsión generan <b>tensión, misterio e inmersión tecnológica</b>. La estética hace sentir que observamos una pantalla intervenida o un sistema de vigilancia.</p></div>
+  <div class="card rv"><h3>Aplicación en nuestros ejemplos</h3><p>En <em>UPGRADE</em>, el rostro distorsionado y las miras de escaneo sugieren pérdida de privacidad y fusión humano-máquina. El cian sobre negro dirige la mirada al personaje.</p></div>
  </div>
  <div class="flex flex-wrap gap-2 mt-6">
   <span class="tag self-center">// Palabras clave (clic):</span>
@@ -280,10 +309,10 @@ input[type=range]{width:100%;accent-color:var(--cy)}
   </article>
   <article class="card rv">
    <h3 class="text-xl">Katsuhiro Otomo (1954–presente) &amp; Hiroaki Samura / Estética Ciber-Manga (con mención a Ash Thorp en el diseño contemporáneo)</h3>
-   <p><b>Reseña:</b> Otomo es un mangaka, director y diseñador japonés que revolucionó la animación y el diseño gráfico global con <em>Akira</em>. (Complementado en el diseño gráfico digital moderno por <b>Ash Thorp</b>, director de arte y diseñador de interfaces FUI para <em>Ghost in the Shell</em> y <em>Total Recall</em>).</p>
-   <p><b>Aportes al estilo:</b> Consolidó el concepto de <b>Neo-Tokyo</b>, integrando la estética de las pandillas de motociclistas, la mutación biomecánica, los cables industriales y las interfaces gráficas de usuario (HUD/FUI) hiper-detalladas.</p>
-   <p><b>Lenguaje visual:</b> Composiciones dinámicas de alto impacto, cables y tubos orgánico-mecánicos, explosiones de luz sobre fondos oscuros, tipografía japonesa e inglesa condensada de alto impacto y gráficos de telemetría médica/militar.</p>
-   <p><b>Obras representativas:</b> Póster oficial y manga de <em>Akira</em> (1982/1988), interfaces gráficas de <em>Ghost in the Shell</em> y proyectos de diseño FUI de Ash Thorp.</p>
+   <p><b>Trayectoria:</b> Mangaka y director japonés reconocido por <em>Akira</em>.</p>
+   <p><b>Aporte:</b> Consolidó la imagen de Neo-Tokyo y conectó cultura urbana, tecnología y mutación biomecánica.</p>
+   <p><b>Lenguaje visual:</b> Composición dinámica, maquinaria detallada, luces intensas y tipografía de alto impacto.</p>
+   <p><b>Obra clave:</b> Manga y película <em>Akira</em>. Como referente actual de interfaces FUI, también destaca Ash Thorp.</p>
    <div class="grid grid-cols-3 gap-2 mt-4">
     <!-- CAMBIAR AQUÍ LA RUTA DE LA IMAGEN (obras Otomo / Ash Thorp) -->
     <img src="media/otomo-1.jpg" data-ph="media/otomo-1.jpg" data-phclass="aspect-square" alt="Otomo obra 1" class="zoom w-full aspect-square object-cover">
@@ -303,13 +332,13 @@ input[type=range]{width:100%;accent-color:var(--cy)}
    <h3>Tendencia 1: GLITCHCORE (y Acid Graphics / Cyber-Y2K)</h3>
    <div class="flex gap-2 my-3"><button class="btn on" data-s="0">ANTES: qué retoma</button><button class="btn" data-s="1">AHORA: cómo se transforma</button></div>
    <p class="s">El error digital como estética (<em>glitch</em>), la distorsión de imagen, el ruido extremo y los colores neón saturados.</p>
-   <p class="s hidden">Pasa de ser una crítica sombría de los años 80 a convertirse en una estética hiper-digital y acelerada para portadas de música electrónica (Hyperpop, Phonk), moda streetwear y posters experimentales en redes sociales.</p>
+   <p class="s hidden"><b>Hoy:</b> aparece en portadas de música, streetwear y pósteres digitales con ritmos visuales más rápidos y saturados.</p>
   </article>
   <article class="card rv ba">
    <h3>Tendencia 2: TECH-NOIR / FUI (Fantasy User Interfaces &amp; Dark Mode UI)</h3>
    <div class="flex gap-2 my-3"><button class="btn on" data-s="0">ANTES: qué retoma</button><button class="btn" data-s="1">AHORA: cómo se transforma</button></div>
-   <p class="s">La atmósfera oscura, el alto contraste, la tipografía monoespaciada y los visores de datos técnicos (como los de nuestro póster).</p>
-   <p class="s hidden">Se aplica en el diseño web moderno de alto nivel (videojuegos como <em>Cyberpunk 2077</em> o <em>Marathon</em>, marcas de hardware gamer como ASUS ROG, dashboards de ciberseguridad e interfaces de Inteligencia Artificial), priorizando la precisión vectorial, micro-interacciones limpias y grillas modulares oscuras.</p>
+   <p class="s"><b>Retoma:</b> fondos oscuros, alto contraste, fuentes monoespaciadas y datos HUD.</p>
+   <p class="s hidden"><b>Hoy:</b> se usa en videojuegos, hardware gamer y paneles de ciberseguridad, con retículas precisas e interfaces interactivas.</p>
   </article>
  </div>
 </section></div>
@@ -318,7 +347,7 @@ input[type=range]{width:100%;accent-color:var(--cy)}
 <section id="proceso" class="sec">
  <p class="tag">DATA LOG 007 // PHOTOSHOP</p>
  <h2 class="disp neon h2 mb-4 rv"><span class="glitch" data-text="Video tutoriales y proceso de creación">Video tutoriales y proceso de creación</span></h2>
- <p class="mb-8">Presentamos cómo llevamos la teoría del Cyberpunk y las tendencias <em>Glitchcore</em> y <em>Tech-Noir</em> a la práctica mediante la creación desde cero de nuestro póster <b>"UPGRADE"</b> en Adobe Photoshop.</p>
+ <p class="mb-8">Aplicamos recursos Cyberpunk, Glitchcore y Tech-Noir al póster <b>UPGRADE</b> en Photoshop.</p>
 
  <div class="grid lg:grid-cols-2 gap-6 mb-14">
   <div class="card">
@@ -459,7 +488,7 @@ $$('.vid').forEach(box => {
 /* ========================================================
    NAV: progreso de scroll, sección activa, CRT, teclado
    ======================================================== */
-const ids = ['hero','contexto','adn','emocion','referentes','tendencias','proceso'];
+const ids = ['hero','contexto','archivo-visual','adn','emocion','referentes','tendencias','proceso'];
 addEventListener('scroll', () => {
   const h = document.documentElement;
   $('#bar').style.width = (scrollY / (h.scrollHeight - innerHeight) * 100) + '%';
